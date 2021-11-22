@@ -21,7 +21,8 @@ const Products = () => {
         results: []
     });      
 
-    const proxy = "http://localhost:8080"
+    // const proxy = "http://localhost:8080"
+    const proxy = "https://dvt-proxy.herokuapp.com"
     const baseUrl = "https://api.deezer.com"    
 
     const onSearch = async (query) => {
