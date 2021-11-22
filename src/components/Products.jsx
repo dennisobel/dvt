@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { popularProducts } from "../data";
 import Product from "./Product";
 import Navbar from "../components/Navbar";
-import {useState} from 'react'
+import {useState, lazy,Suspense} from 'react'
+// const Navbar = lazy(() => import("../components/Navbar"))
+
 
 
 const Container = styled.div`
@@ -38,16 +40,22 @@ const Products = () => {
         return data
     }    
   return (
+    
+    
     <>
-    {/* <Navbar/> */}
     <Navbar onSearch={onSearch}/>
     <Container>
       {console.log(state)}
+      
       {state.results.map((item) => (
+        
         <Product item={item} key={item.id} />
+        
       ))}
+      
     </Container>
     </>
+    
   );
 };
 

@@ -1,8 +1,9 @@
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import {useState,useEffect} from 'react'
+import {useState,useEffect,Suspense, lazy} from 'react'
 import {Link} from "react-router-dom"
+import LazyLoad from "react-lazyload";
 
 
 import Navbar from "../components/Navbar";
@@ -21,6 +22,7 @@ const ImgContainer = styled.div`
   flex: 1;
 `;
 
+// const Navbar = lazy(() => import("../components/Navbar"))
 const Image = styled.img`
   width: 100%;
   height: 90vh;
@@ -120,55 +122,75 @@ const Button = styled.button`
 
 const Product = () => {
     const [state, setState] = useState({
-        results: []
-    });    
+        image: "",
+        title: "",
+        release_date: "",
+        duration: "",
+        preview: ""
+    }); 
+    
+          
     const { id } = useParams();
-    console.log("ID:",id)
 
-  useEffect(() => {
-    onSearch(id)
-  },[])
+    useEffect(() => {
+      onSearch(id)
+      // setState({
+      //   image: "",
+      //   title: "",
+      //   release_date: "",
+      //   duration: "",
+      //   preview: ""        
+      // })        
+    },[])
 
     const proxy = "http://localhost:8080"
     const baseUrl = "https://api.deezer.com"    
 
     const onSearch = async (id) => {
-        console.log('querty:',id)
-        const res = await fetch(`${proxy}/${baseUrl}/track/${id}`, {
-            method: 'GET',
-            // mode: 'no-cors'
-        })
+      console.log('querty:',id)
+      const res = await fetch(`${proxy}/${baseUrl}/track/${id}`, {
+          method: 'GET',
+          // mode: 'no-cors'
+      })
 
-        const data = await res.json()
-        console.log("data",data)
-        setState(prevState => {
-          return { ...prevState, results: data }
-        })             
-        return data
+      const data = await res.json()
+      console.log("data",data)
+      // setState(prevState => {
+      //   return { ...prevState, results: data }
+        // }) 
+      setState({
+        image: data.artist.picture_big,
+        title: data.title,
+        release_date: data.release_date,
+        duration: data.duration,
+        preview: data.preview        
+      })                  
+        
+      return data
     }   
 
   return (
+    
     <Container>
-      {/* <Navbar onSearch={onSearch}/> */}
-      {console.log("state",state)}
-      
       <Wrapper>
-        <ImgContainer>
-          <Image src={state.results.artist.picture_big} />
-        </ImgContainer>
         <InfoContainer>
-          <Title>{state.results.title}</Title>
-          <Title>{state.results.release_date}</Title>
+          {console.log(state)}
+          <Title>{state.title}</Title>
+          
           <Desc>
-            {state.results.release_date}
+            Release Date : {state.release_date}
           </Desc>
-          <Price>Duration: {state.results.duration}</Price>
+          <Price>Duration: {state.duration}</Price>
           <AddContainer>
-            <Link to={`${state.results.preview}`}><Button>Preview</Button></Link>
+            <a target="_blank" rel="noopener" href={`${state.preview}`}>Preview</a>
           </AddContainer>
         </InfoContainer>
+        <ImgContainer>
+          <Image src={state.image} />
+        </ImgContainer>        
       </Wrapper>
     </Container>
+    
   );
 };
 
