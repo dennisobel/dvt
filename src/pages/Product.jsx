@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import {useState,useEffect,Suspense, lazy} from 'react'
 import {Link} from "react-router-dom"
 import LazyLoad from "react-lazyload";
+import ReactAudioPlayer from 'react-audio-player';
 
 
 import Navbar from "../components/Navbar";
@@ -181,14 +182,20 @@ const Product = () => {
             Release Date : {state.release_date}
           </Desc>
           <Price>Duration: {state.duration}</Price>
-          <AddContainer>
-            <a target="_blank" rel="noopener" href={`${state.preview}`}>Preview</a>
-          </AddContainer>
+
         </InfoContainer>
         <ImgContainer>
           <Image src={state.image} />
         </ImgContainer>        
       </Wrapper>
+      <AddContainer>
+        <ReactAudioPlayer
+          src={`${state.preview}`}
+          autoPlay
+          controls
+        />                  
+      </AddContainer>      
+
     </Container>
     
   );
