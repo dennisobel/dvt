@@ -175,6 +175,9 @@ const Product = () => {
     
     <Container>
       <Wrapper>
+        <ImgContainer>
+          <Image src={state.image} />
+        </ImgContainer>          
         <InfoContainer>
           {console.log(state)}
           <Title>{state.title}</Title>
@@ -183,19 +186,18 @@ const Product = () => {
             Release Date : {state.release_date}
           </Desc>
           <Price>Duration: {state.duration}</Price>
-
-        </InfoContainer>
-        <ImgContainer>
-          <Image src={state.image} />
-        </ImgContainer>        
-      </Wrapper>
-      <AddContainer>
+ 
+        <AddContainer>
         <ReactAudioPlayer
           src={`${state.preview}`}
           autoPlay
           controls
         />                  
-      </AddContainer>      
+      </AddContainer>                
+        </InfoContainer>
+     
+      </Wrapper>
+       
 
     </Container>
     
